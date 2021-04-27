@@ -1,0 +1,36 @@
+services:
+  - name: user
+    exposes:
+      - protocol: http
+        port: 8001
+        paths:
+          - "/login"
+      - protocol: grpc
+        port: 9001
+        paths:
+          - "/shard.UserSvc"
+  - name: im
+    exposes:
+      - protocol: http
+        port: 8002
+        paths:
+          - "/favicon.ico"
+          - "/"
+          - "/ws"
+  - name: rel
+    exposes:
+      - protocol: grpc
+        port: 9002
+        paths:
+          - "/shard.RelSvc"
+
+environments:
+  - name: default
+    services:
+      user:
+        http: localhost:9001
+        grpc: localhost:8001
+      im:
+        http: localhost:8002
+      rel:
+        grpc: localhost:9001

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package shard;
+
+message User {
+    int64 UserId = 1;
+    string Name = 2;
+    string Birthday = 3;
+    string Gender = 4;
+}
+
+message UserReq {
+    int64 ReqUser = 1;
+}
+
+service UserSvc {
+	rpc UserInfo(UserReq) returns (User) {};
+}
+
+message UserRsp {
+    repeated User OtherUsers = 1;
+}
+
+message UserPairRequest {
+    int64 Uid1 = 1;
+    int64 Uid2 = 2;
+}
+
+message IsFiendResp {
+    bool  IsFriend = 1;
+}
+
+
+service RelSvc {
+	rpc IsFriend(UserPairRequest) returns (IsFiendResp) {};
+	rpc Friends(UserReq) returns (UserRsp) {};
+}
