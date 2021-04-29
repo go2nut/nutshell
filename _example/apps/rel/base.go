@@ -1,46 +1,36 @@
 package rel
 
-
+import (
+	"fmt"
+	log "github.com/sirupsen/logrus"
+)
 
 type friendDb struct {
-	Users map[int64]string
-	Friends map[int64][]int64
+	Friends map[string]struct{}
 }
 
-var db = &friendDb{make(map[int64]string, 0), make(map[int64][]int64, 0)}
+var db = &friendDb{make(map[string]struct{}, 0)}
 
 func init() {
-	db.Users[100] = "John"
-	db.Users[101] = "Mik"
-	db.Users[102] = "Trump"
-	db.Users[103] = "Bidden"
-	db.Users[104] = "Jobs"
-	db.Users[105] = "Steven"
-	db.Users[105] = "Lisa"
-	db.Users[106] = "Nasa"
-	db.Users[107] = "Lucy"
-	db.Users[108] = "Joe"
-	db.Users[109] = "Zoe"
-	db.Users[110] = "Dave"
 
-	for i:= int64(102); i<= 108; i++ {
-		newFrs := []int64{i-2, i-1, i+1, i+2}
-		frs, exist := db.Friends[i]
-		if exist {
-			frs = append(newFrs, []int64{i-2, i-1, i+1, i+2}...)
-		} else {
-			frs = newFrs
-		}
-		db.Friends[i] = frs
 
-		for _, newFrId := range newFrs {
-			oppoNewFrs, oppoExist := db.Friends[newFrId]
-			if oppoExist {
-				oppoNewFrs = append(oppoNewFrs, newFrId)
-			} else {
-				oppoNewFrs = []int64{newFrId}
-			}
-			db.Friends[newFrId] = oppoNewFrs
+	ii := [][]int64{
+		{100, 101, 102},
+		{103, 104},
+		{105, 106, 107, 108, 109, 110, 111},
+	}
+	for _, i := range ii {
+		for _, j := range i {
+			for _, j2 := range i {
+				k := fmt.Sprintf("%d:%d", j, j2)
+				if j > j2 {
+					k = fmt.Sprintf("%d:%d", j2, j)
+				}
+				if j != j2 {
+					log.Infof("add friend:%s", k)
+					db.Friends[k] = struct{}{}
+				}
+		    }
 		}
 	}
 

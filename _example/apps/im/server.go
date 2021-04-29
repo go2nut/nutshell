@@ -3,29 +3,41 @@ package im
 import (
 	"flag"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"strconv"
+	"nutshell/_example/apps/shard"
+	userCli "nutshell/_example/apps/user/client"
 )
 
+
 func serveHome(w http.ResponseWriter, r *http.Request) {
+	var homeTempl = template.Must(template.ParseFiles("./_example/apps/im/home.html"))
+
 	log.Println(r.URL)
 	if r.URL.Path != "/" {
 		http.Error(w, "Not found", http.StatusNotFound)
 		return
 	}
 	if r.Method != "GET" {
-
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	if uid, err := strconv.ParseInt(r.URL.Query().Get("uid"), 10, 64); err != nil {
-		http.Error(w, "Uid not provide", http.StatusUnauthorized)
+	if token := r.URL.Query().Get("token"); token == "" {
+		http.Error(w, "token not provide", http.StatusUnauthorized)
 	} else {
-		http.ServeFile(w, r, fmt.Sprintf("apps/im/home.html?uid=%d", uid))
+		//http.ServeFile(w, r, fmt.Sprintf("apps/im/home.html?user=%d", user))
+		if user, userErr := userCli.Client.UserByToken(r.Context(), &shard.TokenReq{
+			Token:              token,
+		}); userErr != nil || user == nil {
+			http.Error(w, "token not provide", http.StatusUnauthorized)
+		} else {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			homeTempl.Execute(w, map[string]string{"host": r.Host, "token": token})
+			return
+		}
 	}
-
 }
 
 func Run(httpPort int, grpcPort int) {
@@ -34,12 +46,20 @@ func Run(httpPort int, grpcPort int) {
 	go hub.run()
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		if uid, err := strconv.ParseInt(r.Form.Get("uid"), 10, 64); err != nil {
-			w.WriteHeader(400)
-			w.Write([]byte("please login first"))
-			return
+		if token := r.URL.Query().Get("token"); token == "" {
+			http.Error(w, "token not provide", http.StatusUnauthorized)
 		} else {
-			serveWs(hub, w, r, uid)
+			//http.ServeFile(w, r, fmt.Sprintf("apps/im/home.html?user=%d", user))
+			if user, userErr := userCli.Client.UserByToken(r.Context(), &shard.TokenReq{
+				Token:              token,
+			}); userErr != nil || user == nil {
+				w.WriteHeader(400)
+				w.Write([]byte("please login first"))
+				return
+			} else {
+				log.Printf("ws connect:%d", user.UserId)
+				serveWs(hub, w, r, user)
+			}
 		}
 	})
 	err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", httpPort), nil)
