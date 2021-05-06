@@ -3,7 +3,6 @@ FROM golang:1.13
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
-ENV GOPROXY=http://goproxy.cn
 
 # install zsh
 RUN apt-get -q -q update && \
@@ -25,6 +24,8 @@ RUN mkdir /srv/git
 # This can speed up future builds because of cache, only rebuild when vendors are
 # added.
 ENV GO111MODULE=on
+ENV GOPROXY=http://goproxy.cn
+
 VOLUME ["/srv/git"]
 RUN mkdir /nutshell /nutshell/nutlet /nutshell/nutctl
 
@@ -32,6 +33,8 @@ ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
 COPY nutlet/nutlet.sh /nutshell/nutlet.sh
 COPY nutlet/nutlet.Procfile /nutshell/nutlet.Procfile
+
+
 RUN go build -o /nutshell/nutlet nutlet/main.go
 RUN chmod 777 /nutshell/nutlet
 
@@ -47,4 +50,5 @@ RUN go install github.com/etcd-io/etcd/etcdctl
 WORKDIR /workspace/
 
 EXPOSE 80
-ENTRYPOINT sh /nutshell/nutlet.sh
+#ENTRYPOINT sh /nutshell/nutlet.sh
+CMD ["sh", "/nutshell/nutlet.sh"]

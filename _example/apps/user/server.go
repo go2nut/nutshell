@@ -43,6 +43,7 @@ func (svc *InfoGrpcService) UserByToken(ctx context.Context, req *shard.TokenReq
 
 
 func handleHttpLogin(c *gin.Context) {
+
 	type EmailPasswd struct {
 		Email string
 		Passwd string
