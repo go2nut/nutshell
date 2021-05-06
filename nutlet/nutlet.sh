@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo goreman -f nutlet.Procfile start
+goreman -f nutlet.Procfile start

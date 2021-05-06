@@ -36,3 +36,4 @@ require (
 )
 
 replace google.golang.org/grpc v1.34.0 => google.golang.org/grpc v1.26.0
+replace go.etcd.io/bbolt  v1.3.5 =>  github.com/coreos/bbolt v1.3.5

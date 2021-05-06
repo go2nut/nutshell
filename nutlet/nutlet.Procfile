@@ -1,2 +1,2 @@
 etcd: etcd
-nutlet: go run main.go
+nutlet: bin/nutlet
