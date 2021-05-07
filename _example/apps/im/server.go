@@ -23,7 +23,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	if uid, err := strconv.ParseInt(r.URL.Query().Get("uid"), 10, 64); err != nil {
 		http.Error(w, "Uid not provide", http.StatusUnauthorized)
 	} else {
-		http.ServeFile(w, r, fmt.Sprintf("apps/im/home.html?uid=%d", uid))
+		http.ServeFile(w, r, fmt.Sprintf("home.html?uid=%d", uid))
 	}
 
 }
