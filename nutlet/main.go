@@ -24,7 +24,10 @@ func main() {
 	appRouter := proxy.ServeAppProxy(6701, 6702)
 	envRouter := proxy.ServeEnvProxy(80)
 
-	f := func() error {
+	f := func() (err error) {
+		defer func() {
+			log.Infof("reload cfg file configPath:%s procPath:%s err:%v", *configPath, *procPath, err)
+		}()
 		svcDefCfg, err := config.LoadAppDefinitionsCfg(*configPath)
 		if err != nil {
 			return err
