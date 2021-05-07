@@ -35,7 +35,7 @@ RUN mkdir /nutshell /nutshell/bin /nutshell/_example
 ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
 
-COPY _example/config.yaml /nutshell/_example/config.yaml
+COPY _example/example.yaml /nutshell/_example/example.yaml
 COPY _example/Procfile /nutshell/_example/example.Procfile
 RUN go build -o /nutshell/_example/example _example/apps/main.go
 RUN chmod 777 /nutshell/_example/example

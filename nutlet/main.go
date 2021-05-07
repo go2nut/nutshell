@@ -10,8 +10,8 @@ import (
 	"time"
 )
 
-var configPath = flag.String("config", "../_example/config.yaml", "path to service definition config")
-var procPath = flag.String("proc", "../_example/procfile", "path to service definition config")
+var configPath = flag.String("config", "../_example/example.yaml", "path to service definition config")
+var procPath = flag.String("proc", "../_example/example.Procfile", "path to service definition config")
 
 func main() {
 	flag.Parse()
