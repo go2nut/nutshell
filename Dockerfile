@@ -29,14 +29,14 @@ VOLUME ["/srv/git"]
 RUN go install github.com/mattn/goreman
 RUN go install github.com/loov/watchrun
 
-RUN mkdir /nutshell /nutshell/_example
+RUN mkdir /nutshell /nutshell/_example /nutshell/bin
 ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
 
 RUN go build -o /go/src/nutshell/nutlet nutlet/main.go
-RUN chmod 777 /go/src/nutshell/nutlet
+RUN chmod 777 /go/src/nutshell/bin/nutlet
 
 ENV NUTSHELL_WS=/go/src/nutshell/_example
 
 EXPOSE 80
-ENTRYPOINT cd /go/src/nutshell/ && ./nutlet
+ENTRYPOINT cd /go/src/nutshell/ && bin/nutlet
