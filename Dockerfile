@@ -43,10 +43,10 @@ RUN chmod 777 /nutshell/_example/example
 COPY nutlet/nutlet.sh /nutshell/nutlet/nutlet.sh
 COPY nutlet/nutlet.Procfile /nutshell/nutlet/nutlet.Procfile
 RUN go build -o /nutshell/nutlet/nutlet nutlet/main.go
-RUN chmod 777 /nutshell/bin/nutlet
+RUN chmod 777 /nutshell/nutlet/nutlet
 
-WORKDIR /nutshell/
+WORKDIR /nutshell/nutlet/
 
 EXPOSE 80
 #ENTRYPOINT cd /nutshell && sh nutlet.sh
-ENTRYPOINT watch -n 5 "pwd"
+ENTRYPOINT sh nutlet.sh
