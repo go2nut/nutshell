@@ -1,6 +1,7 @@
 package proxy
 
 import (
+	"encoding/json"
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
@@ -61,6 +62,8 @@ func (ir *AppRouter) Reset(appDefCfg *config.NutshellCfg, localApps []string) {
 			}
 		}
 	}
+	d, _ := json.MarshalIndent(ir, "`", " ")
+	log.Infof("app router info: %s", string(d))
 }
 
 func (ir *AppRouter) RouteHttp(ctx context.Context, req *http.Request) *url.URL {
