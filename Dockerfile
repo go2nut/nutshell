@@ -34,8 +34,9 @@ ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
 
 RUN go build -o /go/bin/nutlet nutlet/main.go
-RUN chmod 777 /go/src/bin/nutlet
+RUN chmod 777 /go/bin/nutlet
 
+ENV PATH="/go/bin:${PATH}"
 ENV NUTSHELL_WS=/go/src/nutshell/_example
 
 EXPOSE 80
