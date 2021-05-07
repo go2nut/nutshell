@@ -63,7 +63,6 @@ func main() {
 		envRouter.DelEnv(config.Env)
 	})
 
-
 	waitToQuit()
 }
 

@@ -39,4 +39,4 @@ RUN chmod 777 /go/src/nutshell/nutlet
 ENV NUTSHELL_WS=/go/src/nutshell/_example
 
 EXPOSE 80
-ENTRYPOINT nutlet
+ENTRYPOINT cd /go/src/nutshell/ && ./nutlet
