@@ -37,7 +37,7 @@ RUN go build -o /go/bin/nutlet nutlet/main.go
 RUN chmod 777 /go/bin/nutlet
 
 ENV PATH="/go/bin:${PATH}"
-ENV NUTSHELL_WS=/go/src/nutshell/_example
 
+WORKDIR /go/src/nutshell/_example
 EXPOSE 80
 ENTRYPOINT nutlet
