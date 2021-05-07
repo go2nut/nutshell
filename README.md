@@ -13,8 +13,6 @@ Nutshell provider a lightweight dev/test environment base on the docker. Support
 ###### start docker
 ```
 docker run -d -p 10.0.1.38:9001:80 -v /Users/sunwei/go/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.168.0.12" -e "nutshell_http_port=8001" -e "nutshell_grpc_port=8002" -e "nutshell_etcd=1.1.1.1" --name test1.nutshell --hostname test1.nutshell -w "/workspace" --rm -it nutshell:latest bash
-
-
 ```
 
 ###### config
