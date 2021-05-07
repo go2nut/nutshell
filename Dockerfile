@@ -33,10 +33,14 @@ RUN mkdir /nutshell /nutshell/_example /nutshell/bin
 ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
 
+RUN go build -o /go/src/nutshell/_example/main _example/main.go
+
 RUN go build -o /go/bin/nutlet nutlet/main.go
 RUN chmod 777 /go/bin/nutlet
 
 ENV PATH="/go/bin:${PATH}"
+
+RUN sed -i '1i\nameserver 127.0.0.1\n' /etc/resolv.conf
 
 WORKDIR /go/src/nutshell/_example
 EXPOSE 80
