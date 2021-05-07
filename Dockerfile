@@ -37,12 +37,12 @@ WORKDIR /go/src/nutshell/
 
 COPY _example/config.yaml /nutshell/_example/config.yaml
 COPY _example/Procfile /nutshell/_example/example.Procfile
-RUN go build -o /nutshell/bin/example _example/apps/main.go
-RUN chmod 777 /nutshell/bin/example
+RUN go build -o /nutshell/_example/example _example/apps/main.go
+RUN chmod 777 /nutshell/_example/example
 
-COPY nutlet/nutlet.sh /nutshell/bin/nutlet.sh
+COPY nutlet/nutlet.sh /nutshell/nutlet/nutlet.sh
 COPY nutlet/nutlet.Procfile /nutshell/nutlet/nutlet.Procfile
-RUN go build -o /nutshell/bin/nutlet nutlet/main.go
+RUN go build -o /nutshell/nutlet/nutlet nutlet/main.go
 RUN chmod 777 /nutshell/bin/nutlet
 
 WORKDIR /nutshell/

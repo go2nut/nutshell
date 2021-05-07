@@ -50,6 +50,6 @@ env proxy:
 ## how to build
 docker build --tag=nutshell:latest .
 
-sudo docker run -p 172.31.27.138:9001:80 -v /data/code/go_home/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.168.0.12" -e "nutshell_http_port=8001" -e "nutshell_grpc_port=8002" -e "nutshell_etcd=1.1.1.1" --name test1.nutshell --hostname test1.nutshell -w "/workspace" --rm -it nutshell:latest bash
+sudo docker run -p 172.31.27.138:9001:80 -v /data/code/go_home/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.168.0.12" -e "nutshell_http_port=8001" -e "nutshell_grpc_port=8002" -e "nutshell_etcd=1.1.1.1" --name test1.nutshell --hostname test1.nutshell -w "/nutshell" --rm -it nutshell:latest bash
 
 sudo docker 

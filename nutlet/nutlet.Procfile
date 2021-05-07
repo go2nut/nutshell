@@ -1,2 +1,2 @@
 etcd: etcd
-nutlet: bin/nutlet
+nutlet: ./nutlet
