@@ -40,8 +40,6 @@ RUN chmod 777 /go/bin/nutlet
 
 ENV PATH="/go/bin:${PATH}"
 
-RUN sed -i '1i\nameserver 127.0.0.1\n' /etc/resolv.conf
-
 WORKDIR /go/src/nutshell/_example
 EXPOSE 80
 ENTRYPOINT nutlet
