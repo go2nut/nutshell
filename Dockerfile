@@ -33,7 +33,7 @@ RUN mkdir /nutshell /nutshell/_example
 ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
 
-RUN go build -o nutlet nutlet/main.go
+RUN go build -o /go/src/nutshell/nutlet nutlet/main.go
 RUN chmod 777 /go/src/nutshell/nutlet
 
 ENV NUTSHELL_WS=/go/src/nutshell/_example
