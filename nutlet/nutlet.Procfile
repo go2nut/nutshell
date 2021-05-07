@@ -1,2 +1,0 @@
-etcd: etcd
-nutlet: ./nutlet

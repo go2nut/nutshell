@@ -62,8 +62,8 @@ func (ir *AppRouter) Reset(appDefCfg *config.NutshellCfg, localApps []string) {
 			}
 		}
 	}
-	d, _ := json.MarshalIndent(ir, "`", " ")
-	log.Infof("app router info: %s", string(d))
+	d, _ := json.MarshalIndent(ir, ">", "\t")
+	println(fmt.Sprintf("app router info: %s", string(d)))
 }
 
 func (ir *AppRouter) RouteHttp(ctx context.Context, req *http.Request) *url.URL {

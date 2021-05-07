@@ -42,6 +42,7 @@ type RuntimeEnvCfg struct {
 	HttpPort     string `json:"http_port"`
 	GrpcPort     string `json:"grpc_port"`
 	EtcdEndpoint string `json:"-"`
+	WorkSpace    string `json:"-"`
 }
 
 func (cfg *NutshellCfg) FindAddr(envName string, appName string, protocolName Protocol) (addr string, exist bool) {

@@ -1,4 +1,4 @@
-services:
+apps:
   - name: user
     exposes:
       - protocol: http
@@ -23,10 +23,9 @@ services:
         port: 9002
         paths:
           - "/shard.RelSvc"
-
 environments:
   - name: default
-    services:
+    apps:
       user:
         http: localhost:9001
         grpc: localhost:8001

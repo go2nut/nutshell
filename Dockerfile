@@ -28,25 +28,15 @@ VOLUME ["/srv/git"]
 
 RUN go install github.com/mattn/goreman
 RUN go install github.com/loov/watchrun
-#RUN go install github.com/etcd-io/etcd
-#RUN go install github.com/etcd-io/etcd/etcdctl
 
-RUN mkdir /nutshell /nutshell/bin /nutshell/_example
+RUN mkdir /nutshell /nutshell/_example
 ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
 
-COPY _example/example.yaml /nutshell/_example/example.yaml
-COPY _example/Procfile /nutshell/_example/example.Procfile
-RUN go build -o /nutshell/_example/example _example/apps/main.go
-RUN chmod 777 /nutshell/_example/example
+RUN go build -o nutlet nutlet/main.go
+RUN chmod 777 /nutshell/nutlet
 
-COPY nutlet/nutlet.sh /nutshell/nutlet/nutlet.sh
-COPY nutlet/nutlet.Procfile /nutshell/nutlet/nutlet.Procfile
-RUN go build -o /nutshell/nutlet/nutlet nutlet/main.go
-RUN chmod 777 /nutshell/nutlet/nutlet
-
-WORKDIR /nutshell/nutlet/
+ENV NUTSHELL_WS=/go/src/nutshell/_example
 
 EXPOSE 80
-#ENTRYPOINT cd /nutshell && sh nutlet.sh
-ENTRYPOINT sh nutlet.sh
+ENTRYPOINT nutlet
