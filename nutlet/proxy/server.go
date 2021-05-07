@@ -20,7 +20,7 @@ func ServeAppProxy(httpPort, grpcPort int) *AppRouter {
 }
 
 func ServeDns() {
-	p := exec.Command("sed", "-i", "'1i\\\\nameserver 127.0.0.1\\n'", "/tmp/resolv.conf")
+	p := exec.Command("sed", "-i", "1s/^/nameserver 127.0.0.1\n/", "/etc/resolv.conf")
 	err := p.Run()
 	log.Infof("edit nameserver command, cmd:%s err:%v", p.String(), err)
 	protocols.ServeDns(53, map[string]string{"*.nutshell": "127.0.0.1"})
