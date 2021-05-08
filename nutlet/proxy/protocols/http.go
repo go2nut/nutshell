@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"strings"
 )
 
 type HttpProxyServer struct {
@@ -49,6 +50,11 @@ func (s *HttpProxyServer) handleRequest(w http.ResponseWriter, req *http.Request
 	if target.Host == "" {
 		w.WriteHeader(http.StatusBadGateway)
 		w.Write([]byte("502 - Bad Gateway"))
+		return
+	}
+
+	if strings.HasSuffix(target.String(), "ws") {
+		NewProxy(target).ServeHTTP(w, req)
 		return
 	}
 
