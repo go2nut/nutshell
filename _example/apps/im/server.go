@@ -9,7 +9,7 @@ import (
 )
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.URL)
+	log.Println(fmt.Sprintf("url:%s path:%s", r.URL, r.URL.Path))
 	if r.URL.Path != "/" {
 		http.Error(w, "Not found", http.StatusNotFound)
 		return
