@@ -47,7 +47,7 @@ func (s *HttpProxyServer) handleRequest(w http.ResponseWriter, req *http.Request
 	ctx := req.Context()
 	if target, exist := s.httpRouter(ctx, req); exist {
 
-		log.Printf("schema:%s origin=%s target=%s\n", req.URL.Scheme, req.Host, target)
+		log.Printf("http schema:%s origin=%s target=%s\n", req.URL.Scheme, req.Host, target)
 
 		if target.Host == "" {
 			w.WriteHeader(http.StatusBadGateway)
@@ -56,8 +56,9 @@ func (s *HttpProxyServer) handleRequest(w http.ResponseWriter, req *http.Request
 		}
 		s.serveProxy(target, w, req)
 		return
-	} else if target, exist := s.wsRouter(ctx, req); exist {
-		NewProxy(target).ServeHTTP(w, req)
+	} else if target2, exist2 := s.wsRouter(ctx, req); exist2 {
+		log.Printf("ws schema:%s origin=%s target=%s\n", req.URL.Scheme, req.Host, target)
+		NewProxy(target2).ServeHTTP(w, req)
 		return
 	} else {
 		w.WriteHeader(http.StatusBadGateway)

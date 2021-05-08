@@ -96,10 +96,10 @@ func (ir *AppRouter) RouteHttp(ctx context.Context, req *http.Request) (*url.URL
 		if err != nil {
 			log.Printf("skip routing, target of test can not be parsed as url.URL, test ski    pped; Target=%s Err=%s\n", target, err)
 			targetURL = req.URL
-			return targetURL, true
+			return targetURL, false
 		} else {
 			log.Debugf("inbound route req:%s host:%s target:%s", req.URL, req.Host, targetURL)
-			return targetURL, false
+			return targetURL, true
 		}
 	}
 }
