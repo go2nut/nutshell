@@ -12,7 +12,7 @@ func ServeEnvProxy(grpcPort int) *EnvRouter {
 
 func ServeAppProxy(httpPort, grpcPort int) *AppRouter {
 	appRouter := NewAppRouter()
-	go protocols.NewHttpProxy(appRouter.RouteHttp).ServeHTTP(httpPort)
+	go protocols.NewHttpProxy(appRouter.RouteHttp, appRouter.RouteWebsocket).ServeHTTP(httpPort)
 	go protocols.NewGrpcProxyServer(appRouter.RouteGrpc).ServeGrpc(grpcPort)
 	return appRouter
 }

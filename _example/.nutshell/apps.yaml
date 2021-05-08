@@ -16,6 +16,9 @@ apps:
         paths:
           - "/favicon.ico"
           - "/"
+      - protocol: ws
+        port: 8002
+        paths:
           - "/ws"
   - name: rel
     exposes:

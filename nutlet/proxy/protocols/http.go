@@ -8,22 +8,23 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"strings"
 )
 
 type HttpProxyServer struct {
-	t http.RoundTripper
-	r Router
+	t          http.RoundTripper
+	httpRouter Router
+	wsRouter   Router
 }
 
-func NewHttpProxy(r Router) *HttpProxyServer {
+func NewHttpProxy(httpR Router, wsR Router) *HttpProxyServer {
 	return &HttpProxyServer{
-		t: http.DefaultTransport,
-		r: r,
+		t:          http.DefaultTransport,
+		httpRouter: httpR,
+		wsRouter:   wsR,
 	}
 }
 
-type Router func(ctx context.Context, req *http.Request) *url.URL
+type Router func(ctx context.Context, req *http.Request) (*url.URL, bool)
 
 func (s *HttpProxyServer) ServeHTTP(port int) {
 	l, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", port))
@@ -44,21 +45,25 @@ func (s *HttpProxyServer) ServeHTTP(port int) {
 
 func (s *HttpProxyServer) handleRequest(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
-	target := s.r(ctx, req )
-	log.Printf("schema:%s origin=%s target=%s\n", req.URL.Scheme, req.Host, target)
+	if target, exist := s.httpRouter(ctx, req); exist {
 
-	if target.Host == "" {
+		log.Printf("schema:%s origin=%s target=%s\n", req.URL.Scheme, req.Host, target)
+
+		if target.Host == "" {
+			w.WriteHeader(http.StatusBadGateway)
+			w.Write([]byte("502 - Bad Gateway"))
+			return
+		}
+		s.serveProxy(target, w, req)
+		return
+	} else if target, exist := s.wsRouter(ctx, req); exist {
+		NewProxy(target).ServeHTTP(w, req)
+		return
+	} else {
 		w.WriteHeader(http.StatusBadGateway)
 		w.Write([]byte("502 - Bad Gateway"))
 		return
 	}
-
-	if strings.HasSuffix(target.String(), "ws") {
-		NewProxy(target).ServeHTTP(w, req)
-		return
-	}
-
-	s.serveProxy(target, w, req)
 }
 
 func (s *HttpProxyServer) serveProxy(target *url.URL, w http.ResponseWriter, req *http.Request) {
@@ -73,6 +78,7 @@ func (s *HttpProxyServer) serveProxy(target *url.URL, w http.ResponseWriter, req
 	p.Transport = s.t
 	p.ServeHTTP(w, req)
 }
+
 //
 //type httpTransport struct {
 //}
