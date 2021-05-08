@@ -44,7 +44,7 @@ func (s *HttpProxyServer) ServeHTTP(port int) {
 func (s *HttpProxyServer) handleRequest(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	target := s.r(ctx, req )
-	log.Printf("http: origin=%s target=%s\n", req.Host, target)
+	log.Printf("schema:%s origin=%s target=%s\n", req.URL.Scheme, req.Host, target)
 
 	if target.Host == "" {
 		w.WriteHeader(http.StatusBadGateway)
