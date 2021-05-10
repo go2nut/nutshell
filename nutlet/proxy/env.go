@@ -22,11 +22,12 @@ func NewEnvRouter() *EnvRouter {
 
 func (router *EnvRouter) AddEnv(env, address string) {
 	router.EnvRules[env] = address
-	log.Infof("outbound add rule, env:%s, address:%s", env, address)
+	log.Infof("env router add rule, env:%s, address:%s", env, address)
 }
 
 func (router *EnvRouter) DelEnv(env string) {
 	delete(router.EnvRules, env)
+	log.Infof("env router del rule, env:%s", env)
 }
 
 func  (router *EnvRouter) Route(ctx context.Context, originAddr string, fullMethodName string) (*url.URL, error) {

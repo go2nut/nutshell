@@ -1,4 +1,4 @@
-services:
+apps:
   - name: user
     exposes:
       - protocol: http
@@ -16,6 +16,9 @@ services:
         paths:
           - "/favicon.ico"
           - "/"
+      - protocol: ws
+        port: 8002
+        paths:
           - "/ws"
   - name: rel
     exposes:
@@ -23,10 +26,9 @@ services:
         port: 9002
         paths:
           - "/shard.RelSvc"
-
 environments:
   - name: default
-    services:
+    apps:
       user:
         http: localhost:9001
         grpc: localhost:8001

@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	log "github.com/sirupsen/logrus"
 	"nutshell/nutlet/config/etcd"
 	"os"
@@ -14,6 +15,7 @@ func ReadFromSysEnv() *RuntimeEnvCfg {
 		HttpPort:     os.Getenv("nutshell_http_port"),
 		GrpcPort:     os.Getenv("nutshell_grpc_port"),
 		EtcdEndpoint: os.Getenv("nutshell_etcd"),
+		WorkSpace: 	  os.Getenv("nutshell_ws"),
 	}
 	if cfg.Env == "" {
 		log.Println("nutshell_env is empty")
@@ -37,7 +39,17 @@ func ReadFromSysEnv() *RuntimeEnvCfg {
 	if cfg.EtcdEndpoint == "" {
 		cfg.EtcdEndpoint = "127.0.0.1:2379"
 	}
+
+	if cfg.WorkSpace == "" {
+		cfg.WorkSpace = "../_example"
+	}
 	return cfg
+}
+
+func (envCfg *RuntimeEnvCfg) WorkSpaceInfo() (configPath string, procPath string) {
+	configPath = fmt.Sprintf("%s/.nutshell/apps.yaml", envCfg.WorkSpace)
+	procPath = fmt.Sprintf("%s/.nutshell/apps.Procfile", envCfg.WorkSpace)
+	return configPath, procPath
 }
 
 

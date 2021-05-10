@@ -12,8 +12,14 @@ Nutshell provider a lightweight dev/test environment base on the docker. Support
 
 ###### start docker
 ```
-docker run -d -p 10.0.1.39:9001:80 -v /Users/sunwei/go/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.168.0.12" -e "nutshell_http_port=8001" -e "nutshell_grpc_port=8002" -e "nutshell_etcd=1.1.1.1" --name test1.nutshell --hostname test1.nutshell -w "/workspace" nutshell:latest 
+<<<<<<< HEAD
+docker run -d -p 10.0.1.38:9001:80 -v /Users/sunwei/go/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.168.0.12" -e "nutshell_http_port=8001" -e "nutshell_grpc_port=8002" -e "nutshell_etcd=1.1.1.1" --name test1.nutshell --hostname test1.nutshell -w "/workspace" --rm -it nutshell:latest bash
+=======
+docker run -d -p 10.0.1.38:9001:80 -v /Users/sunwei/go/src/nutshell/workspace -e "nutshell_env=test1" -e "nutshell_ip=172.168.0.12" -e "nutshell_http_port=8001" -e "nutshell_grpc_port=8002" -e "nutshell_etcd=1.1.1.1" --name test1.nutshell --hostname test1.nutshell -w "/workspace" nutshell:latest 
 
+docker run --rm -it -p 10.0.1.38:9001:80 -v /Users/sunwei/go/src/nutshell/workspace -e "nutshell_env=test1" -e "nutshell_ip=172.168.0.12" -e "nutshell_http_port=8001" -e "nutshell_grpc_port=8002" -e "nutshell_etcd=1.1.1.1" --name test1.nutshell --hostname test1.nutshell -w "/workspace"   nutshell:latest bash
+
+>>>>>>> master
 ```
 
 ###### config
@@ -48,4 +54,8 @@ env proxy:
 
 ## how to build
 docker build --tag=nutshell:latest .
+
+sudo docker run -p 6701-6702:6701-6702/tcp -v /data/code/go_home/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.31.27.138" -e "nutshell_http_port=6701" -e "nutshell_grpc_port=6702" -e "nutshell_etcd=127.0.0.1" --name test1.nutshell --hostname test1.nutshell  --dns=127.0.0.1  --rm -it nutshell:latest
+
+sudo docker exec -it test1.nutshell bash
 

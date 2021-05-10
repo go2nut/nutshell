@@ -19,3 +19,11 @@
 default.etcd/
 nutlet/default.etcd/
 _example/default.etcd/
+
+**/main
+main
+main
+nutshell/main
+nutlet/main
+_example/main
+**/main
