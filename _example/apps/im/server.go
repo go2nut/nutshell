@@ -3,7 +3,8 @@ package im
 import (
 	"flag"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
+	"html/template"
 	"net/http"
 	"strconv"
 )
@@ -20,10 +21,17 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, err := strconv.ParseInt(r.URL.Query().Get("uid"), 10, 64); err != nil {
+	if uid, err := strconv.ParseInt(r.URL.Query().Get("uid"), 10, 64); err != nil {
 		http.Error(w, "Uid not provide", http.StatusUnauthorized)
 	} else {
-		http.ServeFile(w, r, "index.html")
+		if tmpl, err := template.ParseFiles("index.html"); err != nil {
+			log.Errorf("error parse file:%v", err)
+			return
+		} else {
+			//http.ServeFile(w, r, "index.html")
+			tmpl.Execute(w, map[string]interface{}{"uid": uid})
+			return
+		}
 	}
 
 }

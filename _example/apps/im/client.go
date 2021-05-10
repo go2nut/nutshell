@@ -127,6 +127,7 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request, uid int64) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
+		fmt.Println("upgrade error", err)
 		return
 	}
 
