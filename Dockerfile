@@ -24,6 +24,8 @@ RUN mkdir /srv/git
 # added.
 ENV GOPROXY=http://goproxy.cn
 ENV GO111MODULE=on
+ENV GOPROXY=http://goproxy.cn
+
 VOLUME ["/srv/git"]
 
 RUN go install github.com/mattn/goreman
@@ -32,6 +34,7 @@ RUN go install github.com/loov/watchrun
 RUN mkdir /nutshell /nutshell/_example /nutshell/bin
 ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
+
 
 RUN go build -o /go/src/nutshell/_example/main _example/apps/main.go
 COPY _example/index.html /go/src/nutshell/_example/index.html
@@ -44,3 +47,4 @@ ENV PATH="/go/bin:${PATH}"
 WORKDIR /go/src/nutshell/_example
 EXPOSE 80
 ENTRYPOINT nutlet
+

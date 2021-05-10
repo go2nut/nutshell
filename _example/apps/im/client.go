@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"nutshell/_example/apps/shard"
 	"time"
 )
 
@@ -39,6 +40,7 @@ var upgrader = websocket.Upgrader{
 // Client is a middleman between the websocket connection and the hub.
 type Client struct {
 	Uid int64
+	User *shard.User
 	hub *Hub
 
 	// The websocket connection.
@@ -70,7 +72,7 @@ func (c *Client) readPump() {
 			break
 		}
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
-		c.hub.broadcast <- []byte(fmt.Sprintf("name: %s", message))
+		c.hub.broadcast <- &Msg{c.User, []byte(fmt.Sprintf("%s: %s", c.User.Name, message))}
 	}
 }
 
@@ -121,9 +123,7 @@ func (c *Client) writePump() {
 }
 
 // serveWs handles websocket requests from the peer.
-func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request, uid int64) {
-
-
+func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request, user *shard.User) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -131,7 +131,7 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request, uid int64) {
 		return
 	}
 
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), Uid: uid}
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), Uid: user.UserId, User: user}
 	client.hub.register <- client
 
 	// Allow collection of memory referenced by the caller by doing all work in

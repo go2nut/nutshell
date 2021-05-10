@@ -13,8 +13,13 @@ message UserReq {
     int64 ReqUser = 1;
 }
 
+message TokenReq {
+    string Token = 1;
+}
+
 service UserSvc {
 	rpc UserInfo(UserReq) returns (User) {};
+	rpc UserByToken(TokenReq) returns (User) {};
 }
 
 message UserRsp {
@@ -33,5 +38,4 @@ message IsFiendResp {
 
 service RelSvc {
 	rpc IsFriend(UserPairRequest) returns (IsFiendResp) {};
-	rpc Friends(UserReq) returns (UserRsp) {};
 }

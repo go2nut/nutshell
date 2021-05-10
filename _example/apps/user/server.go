@@ -9,6 +9,8 @@ import (
 	"google.golang.org/grpc"
 	"net"
 	"nutshell/_example/apps/shard"
+	"strconv"
+	"strings"
 )
 
 type InfoGrpcService struct {
@@ -26,7 +28,22 @@ func (svc *InfoGrpcService) UserInfo(ctx context.Context, req *shard.UserReq) (*
 	return nil, errors.New(fmt.Sprintf("uid:%d not exist", req.ReqUser))
 }
 
+func (svc *InfoGrpcService) UserByToken(ctx context.Context, req *shard.TokenReq) (*shard.User, error) {
+	uid, _ := strconv.ParseInt(strings.ReplaceAll(req.Token, "token_", ""), 10, 64)
+	if user, exist := userIdIdx[uid]; exist {
+		return &shard.User{
+			UserId:               user.Id,
+			Name:                 user.NickName,
+			Birthday:             user.Birthday,
+			Gender:               string(user.Gender),
+		}, nil
+	}
+	return nil, errors.New(fmt.Sprintf("uid:%d not exist", req.Token))
+}
+
+
 func handleHttpLogin(c *gin.Context) {
+
 	type EmailPasswd struct {
 		Email string
 		Passwd string
@@ -61,7 +78,7 @@ func Run(httpPort int, grpcPort int) {
 	}
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
-	shard.RegisterUserSvcServer(grpcServer, new(InfoGrpcService))
+	shard.RegisterUserSvcServer(grpcServer, &InfoGrpcService{})
 	log.Infof("serving user grpc at %s", lis.Addr().String())
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("fail serve user grpc at %d, err:%v", grpcPort, err)
