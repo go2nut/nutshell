@@ -8,10 +8,11 @@ require (
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.7
+	github.com/gin-gonic/gin v1.7.1
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.4.3
-	github.com/gorilla/websocket v1.4.2 // indirect
+	github.com/gorilla/websocket v1.4.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/jonboulle/clockwork v0.2.2 // indirect
@@ -31,9 +32,8 @@ require (
 	google.golang.org/grpc v1.34.0
 	gopkg.in/yaml.v2 v2.3.0
 	sigs.k8s.io/yaml v1.2.0 // indirect
-	github.com/gin-gonic/gin v1.7.1
 )
 
 replace google.golang.org/grpc v1.34.0 => google.golang.org/grpc v1.26.0
-replace go.etcd.io/bbolt  v1.3.5 =>  github.com/coreos/bbolt v1.3.5
 
+replace go.etcd.io/bbolt v1.3.5 => github.com/coreos/bbolt v1.3.5
