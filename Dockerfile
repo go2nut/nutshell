@@ -41,6 +41,8 @@ COPY _example/index.html /go/src/nutshell/_example/index.html
 
 RUN go build -o /go/bin/nutlet nutlet/main.go
 RUN chmod 777 /go/bin/nutlet
+RUN go build -o /go/bin/nutctl nutctl/main.go
+RUN chmod 777 /go/bin/nutctl
 
 ENV PATH="/go/bin:${PATH}"
 
