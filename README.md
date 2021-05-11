@@ -48,9 +48,20 @@ env proxy:
 #### setup apps
 
 ## how to build
+
+```
+
 docker build --tag=nutshell:latest .
 
-sudo docker run -p 6701-6702:6701-6702/tcp -v /data/code/go_home/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.31.27.138" -e "nutshell_http_port=6701" -e "nutshell_grpc_port=6702" -e "nutshell_etcd=127.0.0.1" --name test1.nutshell --hostname test1.nutshell  --dns=127.0.0.1  --rm -it nutshell:latest
+sudo docker run -p 6700-6702:6700-6702/tcp -v /data/code/go_home/src/nutshell/workspace -e "nutshell_env=env1" -e "nutshell_ip=172.31.27.138" -e "nutshell_http_port=6701" -e "nutshell_grpc_port=6702" -e "nutshell_etcd=127.0.0.1" --name test1.nutshell --hostname test1.nutshell  --dns=127.0.0.1  --rm -it nutshell:latest
+
 
 sudo docker exec -it test1.nutshell bash
+
+```
+
+##### ports usage:
+    - 6700 for customize usage like debug
+    - 6701 for http proxy port
+    - 6702 for grpc proxy port
 

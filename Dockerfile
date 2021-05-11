@@ -31,6 +31,8 @@ VOLUME ["/srv/git"]
 RUN go install github.com/mattn/goreman
 RUN go install github.com/loov/watchrun
 
+RUN go install github.com/go-delve/delve/cmd/dlv
+
 RUN mkdir /nutshell /nutshell/_example /nutshell/bin
 ADD . /go/src/nutshell/
 WORKDIR /go/src/nutshell/
