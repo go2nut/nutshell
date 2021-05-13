@@ -73,8 +73,8 @@ func ServeDns(port int, rules map[string]string) func(host, ip string, del bool 
 	server := &dns.Server{Addr: ":" + strconv.Itoa(port), Net: "udp"}
 	log.Printf("Starting at %d\n", port)
 	go func() {
-		err := server.ListenAndServe()
 		defer server.Shutdown()
+		err := server.ListenAndServe()
 		if err != nil {
 			log.Fatalf("Failed to start server: %s\n ", err.Error())
 		}

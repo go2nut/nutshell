@@ -22,9 +22,8 @@ RUN mkdir /srv/git
 
 # This can speed up future builds because of cache, only rebuild when vendors are
 # added.
-ENV GOPROXY=http://goproxy.cn
+#ENV GOPROXY=http://goproxy.cn
 ENV GO111MODULE=on
-ENV GOPROXY=http://goproxy.cn
 
 VOLUME ["/srv/git"]
 
