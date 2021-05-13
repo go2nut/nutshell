@@ -15,7 +15,7 @@ apps.Procfile   apps.yaml
 
 ###### start docker ans env named test1
 ```
-sudo docker run -p 6700-6702:6700-6702/tcp -v /data/code/go_home/src/nutshell:/go/src/nutshell -e "nutshell_env=env1" -e "nutshell_ip=172.31.27.138" -e "nutshell_http_port=6701" -e "nutshell_grpc_port=6702"  -e "nutshell_ws=/go/src/nutshell/_example" --name test1.nutshell --hostname test1.nutshell  --dns=127.0.0.1  -w /go/src/project1 --rm -it hisunwei/nutshell:latest
+sudo docker run -p 6700-6702:6700-6702/tcp -v /data/code/go_home/src/nutshell:/go/src/nutshell -e "nutshell_env=env1" -e "nutshell_ip=172.31.27.138" -e "nutshell_http_port=6701" -e "nutshell_grpc_port=6702"  -e "nutshell_ws=/go/src/nutshell/_example" --name test1.nutshell --hostname test1.nutshell  --dns=127.0.0.1  -w /go/src/nutshell --rm -it hisunwei/nutshell:latest
 ```
 
 ###### login and add local dns into /etc/resolve.conf 
